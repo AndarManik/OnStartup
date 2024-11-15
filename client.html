@@ -122,10 +122,11 @@
       
     function sendRequest() {
       const pageName = document.getElementById("inputField").value;
-      document.getElementById("inputField").value = ""
       fetch(`http://localhost:3000/nu/${encodeURIComponent(pageName)}`)
         .then((response) => response.text())
         .then((data) => {
+          document.getElementById("inputField").value = ""
+
           const notFound = data.startsWith("We couldn't find");
 
           document.getElementById("link").remove();
