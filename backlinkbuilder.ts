@@ -20,8 +20,6 @@ class BackLinks {
 
     const backlinkCount = await getBacklinkCount(pageTitle);
 
-    console.log(backlinkCount);
-
     const start = await getBacklinks(pageTitle);
     let continueKey = start.continueKey;
     ids.push(...start.ids);
