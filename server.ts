@@ -26,12 +26,11 @@ app.get("/nu/:pageName", async (req, res) => {
     return;
   }
 
-  const loweredDecoded = decoded.toLowerCase();
-  if (!backLinks.has(loweredDecoded))
-    backLinks.buildIdList(loweredDecoded);
+  if (!backLinks.has(decoded))
+    backLinks.buildIdList(decoded);
 
-  const encodedClean = encodeURIComponent(loweredDecoded);
-  res.send(`onstartup.onrender.com/re/${encodedClean}`);
+  const encodedClean = encodeURIComponent(decoded);
+  res.send(`http://localhost:3000/re/${encodedClean}`);
 });
 
 app.listen(3000, () => {
