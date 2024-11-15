@@ -13,22 +13,25 @@ app.get("/", (req, res) => {
 });
 
 app.get("/re/:pageName", (req, res) => {
-  const id = backLinks.getRandomId(req.params.pageName);
+  const id = backLinks.getRandomId(
+    decodeURIComponent(req.params.pageName)
+  );
   res.redirect(`https://en.wikipedia.org/?curid=${id}`);
 });
 
 app.get("/nu/:pageName", async (req, res) => {
-  if (!(await backLinks.isValidPage(req.params.pageName))) {
-    res.send(`We couldn't find ${decodeURIComponent(req.params.pageName)}`);
+  const decoded = decodeURIComponent(req.params.pageName).trim();
+  if (!(await backLinks.isValidPage(decoded))) {
+    res.send(`We couldn't find ${decoded}`);
     return;
   }
 
-  if (!backLinks.has(req.params.pageName))
-    backLinks.buildIdList(req.params.pageName);
+  const loweredDecoded = decoded.toLowerCase();
+  if (!backLinks.has(loweredDecoded))
+    backLinks.buildIdList(loweredDecoded);
 
-  res.send(
-    `onstartup.onrender.com/re/${encodeURIComponent(req.params.pageName)}`
-  );
+  const encodedClean = encodeURIComponent(loweredDecoded);
+  res.send(`onstartup.onrender.com/re/${encodedClean}`);
 });
 
 app.listen(3000, () => {
