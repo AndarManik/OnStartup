@@ -29,11 +29,11 @@ class BackLinks {
       continueKey = data.continueKey;
       ids.push(...data.ids);
 
-      console.log(
-        `${pageTitle}: ${
-          Math.floor((ids.length / backlinkCount) * 1000) / 10
-        }% complete `
-      );
+    //   console.log(
+    //     `${pageTitle}: ${
+    //       Math.floor((ids.length / backlinkCount) * 1000) / 10
+    //     }% complete `
+    //   );
     }
 
     console.log(`${pageTitle} finished with ${ids.length} links`);
@@ -42,10 +42,24 @@ class BackLinks {
   async isValidPage(pageTitle: string) {
     return (await getBacklinkCount(pageTitle)) != -1;
   }
+
+  async titleFromId(id: number) {
+    const url = `https://en.wikipedia.org/w/api.php?action=query&prop=info&pageids=${id}&inprop=url&format=json`;
+
+    try {
+        const response = await axios.get(url);
+        return response.data.query.pages[`${id}`].title || "";
+      } catch (error) {
+        console.error("Error fetching backlink counter:", error);
+        return "";
+      }
+  }
 }
 
 async function getBacklinkCount(pageTitle: string) {
-  const url = `https://linkcount.toolforge.org/api/?page=${encodeURIComponent(pageTitle)}&namespaces=0`;
+  const url = `https://linkcount.toolforge.org/api/?page=${encodeURIComponent(
+    pageTitle
+  )}&namespaces=0`;
 
   try {
     const response = await axios.get(url);
@@ -61,7 +75,9 @@ async function getBacklinks(
   pageTitle: string,
   blcontinue: number | null = null
 ) {
-  const url = `https://en.wikipedia.org/w/api.php?action=query&format=json&list=backlinks&bltitle=${encodeURIComponent(pageTitle)}&blnamespace=0&blfilterredir=nonredirects&blredirect=true&bllimit=500${
+  const url = `https://en.wikipedia.org/w/api.php?action=query&format=json&list=backlinks&bltitle=${encodeURIComponent(
+    pageTitle
+  )}&blnamespace=0&blfilterredir=nonredirects&blredirect=true&bllimit=500${
     blcontinue ? `&blcontinue=${blcontinue}` : ""
   }`;
 

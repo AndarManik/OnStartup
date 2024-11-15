@@ -12,11 +12,12 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/client.html");
 });
 
-app.get("/re/:pageName", (req, res) => {
+app.get("/re/:pageName", async (req, res) => {
   const id = backLinks.getRandomId(
     decodeURIComponent(req.params.pageName)
   );
-  res.redirect(`https://en.wikipedia.org/?curid=${id}`);
+  const title = id ? await backLinks.titleFromId(id) : "";
+  res.redirect(`https://en.wikipedia.org/wiki/${title}`);
 });
 
 app.get("/nu/:pageName", async (req, res) => {
@@ -30,7 +31,7 @@ app.get("/nu/:pageName", async (req, res) => {
     backLinks.buildIdList(decoded);
 
   const encodedClean = encodeURIComponent(decoded);
-  res.send(`http://localhost:3000/re/${encodedClean}`);
+  res.send(`onstartup.onrender.com/re/${encodedClean}`);
 });
 
 app.listen(3000, () => {
