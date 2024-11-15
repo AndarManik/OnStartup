@@ -26,7 +26,7 @@ app.get("/nu/:pageName", async (req, res) => {
   if (!backLinks.has(req.params.pageName))
     backLinks.buildIdList(req.params.pageName);
 
-  res.send(`localhost:3000/re/${req.params.pageName}`);
+  res.send(`onstartup.onrender.com/re/${req.params.pageName}`);
 });
 
 app.listen(3000, () => {

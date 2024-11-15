@@ -97,9 +97,9 @@
       </p>
       <p>
         Here's a few examples
-        <a href="http://localhost:3000/re/Animal">Animal</a>,
-        <a href="http://localhost:3000/re/Painting">Painting</a>, and
-        <a href="http://localhost:3000/re/Skyscraper"> Skyscraper</a>
+        <a href="https://onstartup.onrender.com/re/Animal">Animal</a>,
+        <a href="https://onstartup.onrender.com/re/Painting">Painting</a>, and
+        <a href="https://onstartup.onrender.com/re/Skyscraper"> Skyscraper</a>
       </p>
       <div style="display: flex;">
         <input
@@ -115,7 +115,7 @@
   <script>
     function sendRequest() {
       const pageName = document.getElementById("inputField").value;
-      fetch(`http://localhost:3000/nu/${encodeURIComponent(pageName)}`)
+      fetch(`https://onstartup.onrender.com/nu/${encodeURIComponent(pageName)}`)
         .then((response) => response.text())
         .then((data) => {
           const notFound = data.startsWith("We couldn't find");
