@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/re/:pageName", (req, res) => {
-  const id = backLinks.getRandomId(encodeURIComponent(req.params.pageName));
+  const id = backLinks.getRandomId(req.params.pageName);
   res.redirect(`https://en.wikipedia.org/?curid=${id}`);
 });
 
