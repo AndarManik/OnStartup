@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server": "tsx watch server"
+    "start": "tsx server",
+    "watchserver": "tsx watch server"
   },
   "keywords": [],
   "author": "",
