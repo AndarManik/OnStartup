@@ -122,6 +122,7 @@
       
     function sendRequest() {
       const pageName = document.getElementById("inputField").value;
+      if(!pageName) return;
       document.getElementById("inputField").value = ""
       fetch(`https://onstartup.onrender.com/nu/${encodeURIComponent(pageName)}`)
         .then((response) => response.text())
