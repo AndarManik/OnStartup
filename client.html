@@ -101,7 +101,7 @@
         <a href="https://onstartup.onrender.com/re/Painting">Painting</a>, and
         <a href="https://onstartup.onrender.com/re/Skyscraper"> Skyscraper</a>
       </p>
-      <div style="display: flex;">
+      <div style="display: flex">
         <input
           type="text"
           id="inputField"
@@ -113,6 +113,14 @@
     </div>
   </body>
   <script>
+    document
+      .getElementById("inputField")
+      .addEventListener("keyup", function (event) {
+        if (event.key === "Enter") {
+          sendRequest();
+        }
+      });
+      
     function sendRequest() {
       const pageName = document.getElementById("inputField").value;
       fetch(`https://onstartup.onrender.com/nu/${encodeURIComponent(pageName)}`)
@@ -125,7 +133,9 @@
           bodyElement.id = "link";
           document.querySelector("body").appendChild(bodyElement);
 
-          const textNode = document.createTextNode((!notFound ? "Click to copy: ": "") + data);
+          const textNode = document.createTextNode(
+            (!notFound ? "Click to copy: " : "") + data
+          );
           bodyElement.appendChild(textNode);
           bodyElement.style.color = "oklch(70% 0.15 15)";
 
@@ -136,7 +146,7 @@
           bodyElement.addEventListener("click", () => {
             navigator.clipboard.writeText(data).then(() => {
               const infoBox = document.createElement("div");
-              infoBox.style.color = "#dfdde4"
+              infoBox.style.color = "#dfdde4";
               infoBox.textContent = "Copied to clipboard";
               infoBox.style.position = "fixed";
               infoBox.style.bottom = "20px";

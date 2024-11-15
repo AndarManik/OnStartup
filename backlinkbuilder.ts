@@ -9,7 +9,7 @@ class BackLinks {
 
   getRandomId(pageTitle: string) {
     const maybeIdList = this.idListMap.get(pageTitle);
-    if (!maybeIdList) return [];
+    if (!maybeIdList) return null;
     const randomIndex = Math.floor(Math.random() * maybeIdList.length);
     return maybeIdList[randomIndex];
   }
