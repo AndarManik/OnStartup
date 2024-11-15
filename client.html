@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Centered Div</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #dfdde4;
+        font-family: "Rubik", sans-serif;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #dfdde4;
+        border: 2px solid #c0bcc9;
+        border-radius: 5px;
+        color: #80768b;
+        outline: none;
+        font-size: 1rem;
+      }
+
+      input::placeholder {
+        color: #a6a0b2;
+      }
+
+      button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: oklch(70% 0.15 163.25);
+        color: #dfdde4;
+        cursor: pointer;
+        font-size: 1rem;
+        margin-left: 10px;
+      }
+
+      button:hover {
+        background-color: oklch(60% 0.125 163.25);
+      }
+
+      button:active {
+        background-color: oklch(50% 0.1 163.25);
+      }
+
+      h1 {
+        color: #585260;
+        margin-bottom: 2rem;
+      }
+
+      p {
+        color: #80768b;
+        font-size: 1.25rem;
+      }
+
+      a {
+        text-decoration: none;
+        color: oklch(70% 0.15 300);
+      }
+      .content {
+        padding: 20px;
+        max-width: 600px;
+      }
+
+      #link {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        font-size: 1.25rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <h1>Better Random Wikipedia Link</h1>
+      <p>
+        Wikipedia lets you redirect to a random page using
+        <a href="https://en.wikipedia.org/wiki/Special:Random">Special:Random</a
+        >.
+      </p>
+      <p>
+        Better random links let you specify a page and will only redirect to
+        pages which link to that page.
+      </p>
+      <p>
+        Here's a few examples
+        <a href="http://localhost:3000/re/Animal">Animal</a>,
+        <a href="http://localhost:3000/re/Painting">Painting</a>, and
+        <a href="http://localhost:3000/re/Skyscraper"> Skyscraper</a>
+      </p>
+      <div style="display: flex;">
+        <input
+          type="text"
+          id="inputField"
+          placeholder="Give us a page title and we'll build the link"
+        />
+        <button onclick="sendRequest()">Build</button>
+      </div>
+      <div id="link"></div>
+    </div>
+  </body>
+  <script>
+    function sendRequest() {
+      const pageName = document.getElementById("inputField").value;
+      fetch(`http://localhost:3000/nu/${encodeURIComponent(pageName)}`)
+        .then((response) => response.text())
+        .then((data) => {
+          const notFound = data.startsWith("We couldn't find");
+
+          document.getElementById("link").remove();
+          const bodyElement = document.createElement("div");
+          bodyElement.id = "link";
+          document.querySelector("body").appendChild(bodyElement);
+
+          const textNode = document.createTextNode((!notFound ? "Click to copy: ": "") + data);
+          bodyElement.appendChild(textNode);
+          bodyElement.style.color = "oklch(70% 0.15 15)";
+
+          if (notFound) return;
+
+          bodyElement.style.cursor = "pointer";
+          bodyElement.style.color = "oklch(70% 0.15 260)";
+          bodyElement.addEventListener("click", () => {
+            navigator.clipboard.writeText(data).then(() => {
+              const infoBox = document.createElement("div");
+              infoBox.style.color = "#dfdde4"
+              infoBox.textContent = "Copied to clipboard";
+              infoBox.style.position = "fixed";
+              infoBox.style.bottom = "20px";
+              infoBox.style.right = "20px";
+              infoBox.style.backgroundColor = "oklch(70% 0.15 110)";
+              infoBox.style.padding = "10px 20px";
+              infoBox.style.borderRadius = "5px";
+              document.body.appendChild(infoBox);
+              setTimeout(() => {
+                document.body.removeChild(infoBox);
+              }, 1500);
+            });
+          });
+        });
+    }
+  </script>
+</html>
